@@ -50,3 +50,43 @@ exports.trackApplication = async (req, res) => {
     }
 
 };
+
+
+
+exports.getApplications = async (req, res) => {
+
+    try {
+
+        const applications = await Application
+            .find()
+            .populate("school", "name")
+            .populate("faculty", "name")
+            .populate("department", "name")
+            .populate("programme", "name")
+            .sort({ createdAt: -1 });
+
+        res.json({
+
+            success: true,
+
+            applications
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Server Error"
+
+        });
+
+    }
+
+};

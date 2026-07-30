@@ -47,6 +47,10 @@ router.post("/", async (req, res) => {
 // ------------------------------
 // Track Application
 // ------------------------------
+router.get(
+    "/",
+    admissionController.getApplications
+);
 
 router.get(
     "/track/:applicationNumber",
