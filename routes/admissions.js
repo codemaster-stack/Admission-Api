@@ -1,9 +1,12 @@
 const express = require("express");
-
 const router = express.Router();
-const Application = require("../models/Application");
 
-// Receive student admission application
+const Application = require("../models/Application");
+const admissionController = require("../controllers/admissionController");
+
+// ------------------------------
+// Save Admission Application
+// ------------------------------
 
 router.post("/", async (req, res) => {
 
@@ -41,5 +44,13 @@ router.post("/", async (req, res) => {
 
 });
 
+// ------------------------------
+// Track Application
+// ------------------------------
+
+router.get(
+    "/track/:applicationNumber",
+    admissionController.trackApplication
+);
 
 module.exports = router;
