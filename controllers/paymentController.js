@@ -9,23 +9,23 @@ exports.verifyPayment = async (req, res) => {
 
         const {
 
-            transaction_id,
+    transaction_id,
 
-            application
+    applicationId
 
-        } = req.body;
+} = req.body;
 
-        if (!transaction_id || !application) {
+       if (!transaction_id || !applicationId) {
 
-            return res.status(400).json({
+    return res.status(400).json({
 
-                success: false,
+        success: false,
 
-                message: "Application or transaction missing."
+        message: "Application or transaction missing."
 
-            });
+    });
 
-        }
+}
 
         const response = await flutterwave.get(
 
@@ -47,40 +47,38 @@ exports.verifyPayment = async (req, res) => {
 
         }
 
-        // Generate Application Number
+      const savedApplication =
+await Application.findByIdAndUpdate(
 
-        const year = new Date().getFullYear();
+    applicationId,
 
-        const count = await Application.countDocuments();
+    {
 
-        const applicationNumber =
-            `CH-${year}-${String(count + 1).padStart(6, "0")}`;
+        paymentStatus: "Paid",
 
-        // Save Application
+        applicationStatus: "Submitted",
 
-        const savedApplication = await Application.create({
+        transactionId: payment.id,
 
-          ...application,
+        txRef: payment.tx_ref,
 
-          applicationNumber,
+        currency: payment.currency,
 
-          paymentStatus: "Paid",
+        amountPaid: payment.amount,
 
-          applicationStatus: "Submitted",
+        paymentMethod: payment.payment_type,
 
-           transactionId: payment.id,
+        paidAt: payment.created_at
 
-           txRef: payment.tx_ref,
+    },
 
-          currency: payment.currency,
+    {
 
-          amountPaid: payment.amount,
+        new: true
 
-           paymentMethod: payment.payment_type,
+    }
 
-           paidAt: payment.created_at
-
-        });
+);
 
         return res.json({
 

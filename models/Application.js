@@ -115,6 +115,12 @@ const applicationSchema = new mongoose.Schema({
     enum: ["Draft", "Submitted", "Pending Review", "Approved", "Rejected"],
     default: "Draft"
     },
+    
+    adminRemark: {
+    type: String,
+    default: ""
+    },
+
      reviewedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Admin"

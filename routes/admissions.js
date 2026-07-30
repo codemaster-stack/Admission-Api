@@ -1,48 +1,89 @@
 const express = require("express");
 const router = express.Router();
-
+const upload = require("../middleware/upload");
 const Application = require("../models/Application");
 const admissionController = require("../controllers/admissionController");
-
+const uploadToCloudinary = require("../utils/uploadToCloudinary");
 // ------------------------------
 // Save Admission Application
 // ------------------------------
 
-router.post("/", async (req, res) => {
+router.post(
+    "/",
+    upload.fields([
+        {
+            name: "passport",
+            maxCount: 1
+        },
+        {
+            name: "result",
+            maxCount: 1
+        }
+    ]),
+    async (req, res) => {
 
-    try {
+        try {
 
-        const application = req.body;
 
-        const savedApplication = await Application.create(application);
+const application = { ...req.body };
 
-        res.status(201).json({
+if (req.files.passport) {
 
-            success: true,
+    const passportUpload =
+        await uploadToCloudinary(
+            req.files.passport[0],
+            "campushub/passports"
+        );
 
-            message: "Application saved successfully",
+    application.passport =
+        passportUpload.secure_url;
 
-            application: savedApplication
+}
 
-        });
+if (req.files.result) {
+
+    const resultUpload =
+        await uploadToCloudinary(
+            req.files.result[0],
+            "campushub/results"
+        );
+
+    application.result =
+        resultUpload.secure_url;
+
+}
+
+const savedApplication =
+await Application.create(application);
+
+            res.status(201).json({
+
+                success: true,
+
+                message: "Application saved successfully",
+
+                application: savedApplication
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            res.status(500).json({
+
+                success: false,
+
+                message: "Server error"
+
+            });
+
+        }
 
     }
-
-    catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-
-            success: false,
-
-            message: "Server error"
-
-        });
-
-    }
-
-});
+);
 
 // ------------------------------
 // Track Application

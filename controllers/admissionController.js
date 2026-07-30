@@ -145,13 +145,16 @@ exports.updateApplicationStatus = async (req, res) => {
 
     try {
 
-        const { applicationStatus } = req.body;
+        const { applicationStatus, adminRemark } = req.body;
 
         const application = await Application.findByIdAndUpdate(
 
             req.params.id,
 
-            { applicationStatus },
+            {
+           applicationStatus,
+           adminRemark
+              },
 
             { new: true }
 
