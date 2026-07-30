@@ -52,6 +52,8 @@ router.get(
     admissionController.getApplications
 );
 
+router.get("/:id", admissionController.getApplication);
+
 router.get(
     "/track/:applicationNumber",
     admissionController.trackApplication

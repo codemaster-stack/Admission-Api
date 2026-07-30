@@ -90,3 +90,53 @@ exports.getApplications = async (req, res) => {
     }
 
 };
+
+
+exports.getApplication = async (req, res) => {
+
+    try {
+
+        const application = await Application
+            .findById(req.params.id)
+            .populate("school", "name")
+            .populate("faculty", "name")
+            .populate("department", "name")
+            .populate("programme", "name");
+
+        if (!application) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "Application not found."
+
+            });
+
+        }
+
+        res.json({
+
+            success: true,
+
+            application
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Server Error"
+
+        });
+
+    }
+
+};
