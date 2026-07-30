@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./config/db");
 const admissionRoutes = require("./routes/admissions");
@@ -15,7 +14,11 @@ const app = express();
 // Connect MongoDB
 connectDB();
 
-app.use(cors());;
+const cors = require("cors");
+
+app.use(cors({
+    origin: "https://my-admission.vercel.app"
+}));s
 
 app.use(express.json());
 
