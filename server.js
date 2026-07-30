@@ -18,7 +18,7 @@ const cors = require("cors");
 
 app.use(cors({
     origin: "https://my-admission.vercel.app"
-}));s
+}));
 
 app.use(express.json());
 
