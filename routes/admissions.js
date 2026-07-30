@@ -52,11 +52,18 @@ router.get(
     admissionController.getApplications
 );
 
-router.get("/:id", admissionController.getApplication);
-
 router.get(
     "/track/:applicationNumber",
     admissionController.trackApplication
 );
+
+router.patch(
+    "/:id/status",
+    admissionController.updateApplicationStatus
+);
+
+router.get("/:id", admissionController.getApplication);
+
+
 
 module.exports = router;

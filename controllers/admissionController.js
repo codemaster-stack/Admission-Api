@@ -140,3 +140,57 @@ exports.getApplication = async (req, res) => {
     }
 
 };
+
+exports.updateApplicationStatus = async (req, res) => {
+
+    try {
+
+        const { applicationStatus } = req.body;
+
+        const application = await Application.findByIdAndUpdate(
+
+            req.params.id,
+
+            { applicationStatus },
+
+            { new: true }
+
+        );
+
+        if (!application) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "Application not found."
+
+            });
+
+        }
+
+        res.json({
+
+            success: true,
+
+            application
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Server Error"
+
+        });
+
+    }
+
+};
