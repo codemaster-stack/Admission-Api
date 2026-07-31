@@ -55,6 +55,10 @@ if (req.files.result) {
 
 }
 
+application.applicationNumber =
+    "CH" +
+    Date.now().toString().slice(-8);
+
 const savedApplication =
 await Application.create(application);
 
