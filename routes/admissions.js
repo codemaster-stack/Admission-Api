@@ -4,6 +4,8 @@ const upload = require("../middleware/upload");
 const Application = require("../models/Application");
 const admissionController = require("../controllers/admissionController");
 const uploadToCloudinary = require("../utils/uploadToCloudinary");
+const auth = require("../middleware/auth");
+
 // ------------------------------
 // Save Admission Application
 // ------------------------------
@@ -100,6 +102,7 @@ router.get(
 
 router.patch(
     "/:id/status",
+    auth,
     admissionController.updateApplicationStatus
 );
 

@@ -4,6 +4,14 @@ const router = express.Router();
 const Programme = require("../models/Programme");
 const importSchools = require("../services/importSchools");
 const Faculty = require("../models/Faculty");
+const { createAdmin, loginAdmin } = require("../controllers/adminController");
+
+
+
+router.post("/create",createAdmin);
+
+
+router.post("/login",loginAdmin);
 
 router.get("/import-schools", async (req, res) => {
 
@@ -275,3 +283,5 @@ router.put("/departments/:id", async (req, res) => {
 
 
 module.exports = router;
+
+
