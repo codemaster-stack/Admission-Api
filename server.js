@@ -7,6 +7,7 @@ const paymentRoutes = require("./routes/payments");
 const adminRoutes = require("./routes/admin");
 const programmeRoutes = require("./routes/programmes");
 const departmentRoutes = require("./routes/departmentRoutes");
+const settingsRoute = require("./routes/settings");
 
 
 const app = express();
@@ -58,6 +59,8 @@ app.use("/api/admissions", admissionRoutes);
 app.use("/api/schools", schoolRoutes);
 
 app.use("/api/payments", paymentRoutes);
+
+app.use("/api/settings", settingsRoute);
 
 
 
