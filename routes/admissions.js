@@ -72,17 +72,17 @@ await Application.create(application);
 
         catch (error) {
 
-            console.error(error);
+    console.error("UPLOAD ERROR:", error);
 
-            res.status(500).json({
+    res.status(500).json({
 
-                success: false,
+        success: false,
 
-                message: "Server error"
+        message: error.message
 
-            });
+    });
 
-        }
+}
 
     }
 );
