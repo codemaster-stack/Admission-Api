@@ -100,7 +100,10 @@ router.get("/programmes/:departmentId", async (req, res) => {
 
 });
 
-
+router.get(
+    "/admin/programmes",
+    programmeController.getAllProgrammes
+);
 
 router.post(
     "/admin/programmes",

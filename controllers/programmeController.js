@@ -23,6 +23,31 @@ exports.createProgramme = async (req, res) => {
 
 };
 
+
+// Get All Programmes
+exports.getAllProgrammes = async (req, res) => {
+
+    try {
+
+        const programmes = await Programme
+            .find()
+            .populate("department", "name")
+            .sort({ name: 1 });
+
+        res.json(programmes);
+
+    } catch (err) {
+
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+
+    }
+
+};
+
+
 // Get Programmes by Department
 exports.getProgrammes = async (req, res) => {
 
