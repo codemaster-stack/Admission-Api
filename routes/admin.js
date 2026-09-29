@@ -4,7 +4,7 @@ const router = express.Router();
 const Programme = require("../models/Programme");
 const importSchools = require("../services/importSchools");
 const Faculty = require("../models/Faculty");
-const { createAdmin, loginAdmin } = require("../controllers/adminController");
+const {createAdmin, loginAdmin, ssoLogin} = require("../controllers/adminController");
 
 
 
@@ -12,6 +12,8 @@ router.post("/create",createAdmin);
 
 
 router.post("/login",loginAdmin);
+
+router.post("/sso", ssoLogin);
 
 router.get("/import-schools", async (req, res) => {
 
