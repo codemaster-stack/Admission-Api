@@ -23,25 +23,45 @@ const allowedOrigins = [
     "https://my-admission.vercel.app"
 ];
 
-app.use(cors({
+const corsOptions = {
+    origin: function (origin, callback) {
 
-    origin: function(origin, callback){
-
-        if(!origin) return callback(null, true);
-
-        if(allowedOrigins.includes(origin)){
-
-            callback(null, true);
-
-        }else{
-
-            callback(new Error("Not allowed by CORS"));
-
+        // Allow requests with no origin
+        // (Postman, server-to-server requests, etc.)
+        if (!origin) {
+            return callback(null, true);
         }
 
-    }
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
 
-}));
+        return callback(
+            new Error("Not allowed by CORS")
+        );
+    },
+
+    methods: [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS"
+    ],
+
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization"
+    ],
+
+    credentials: false
+};
+
+app.use(cors(corsOptions));
+
+// Explicitly handle browser preflight requests
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 
